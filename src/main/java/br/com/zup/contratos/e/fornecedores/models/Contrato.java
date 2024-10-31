@@ -3,6 +3,7 @@ package br.com.zup.contratos.e.fornecedores.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,6 +16,7 @@ public class Contrato {
     private String numeroContrato;
     private LocalDate dataInicio;
     private LocalDate dataFim;
+    @Min(value = 1, message = "O valor do contrato deve ser maior que zaro.")
     private BigDecimal valorTotal;
     private String descricao;
     private boolean ativo;
@@ -62,8 +64,9 @@ public class Contrato {
     public boolean isAtivo() {
         return ativo;
     }
+
     public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+
     }
     public Fornecedor getFornecedor() {
         return fornecedor;
@@ -72,6 +75,7 @@ public class Contrato {
         this.fornecedor = fornecedor;
     }
 
-    public Instant getDataTermino() {
+    public LocalDate getDataTermino() {
+        return this.dataFim;
     }
 }

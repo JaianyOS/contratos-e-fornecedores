@@ -3,11 +3,13 @@ package br.com.zup.contratos.e.fornecedores.controllers;
 import br.com.zup.contratos.e.fornecedores.models.Contrato;
 import br.com.zup.contratos.e.fornecedores.service.ContratoService;
 import jakarta.validation.Valid;
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/contratos")
@@ -23,9 +25,9 @@ public class ContratoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Contrato> buscarContrato(@PathVariable Long id) {
-        return contratoService.buscarContrato(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Contrato> contrato = contratoService.buscarContrato(id);
+        return contrato.map(ResponseEntity::ok)
+                       .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/fornecedores/{fornecedorId}/contratos")
@@ -48,4 +50,5 @@ public class ContratoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
 }

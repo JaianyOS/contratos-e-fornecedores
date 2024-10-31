@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ContratoRepositorie extends JpaRepository<Contrato, Long> {
+public interface ContratoRepository extends JpaRepository<Contrato, Long> {
     List<Contrato> findByFornecedorId(Long fornecedorId);
 }
