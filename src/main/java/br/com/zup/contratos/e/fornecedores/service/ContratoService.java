@@ -44,7 +44,6 @@ public class ContratoService {
             contrato.setAtivo(false);
         }
 
-
         Fornecedor fornecedor = fornecedorRepository.findById(fornecedorId)
                 .orElseThrow(() -> new RuntimeException("Supplier not found."));
         contrato.setFornecedor(fornecedor);
