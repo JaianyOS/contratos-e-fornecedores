@@ -23,4 +23,6 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long> {
                                  @Param("descricao") String descricao);
 
     List<Contrato> findByFornecedorId(Long fornecedorId);
+
+    List<Contrato> findByDataTerminoBeforeAndAtivoTrue(LocalDate dataTermino);
 }
