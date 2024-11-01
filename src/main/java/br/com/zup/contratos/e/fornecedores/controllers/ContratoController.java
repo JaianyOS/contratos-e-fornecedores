@@ -4,10 +4,12 @@ import br.com.zup.contratos.e.fornecedores.models.Contrato;
 import br.com.zup.contratos.e.fornecedores.service.ContratoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +21,15 @@ public class ContratoController {
     private ContratoService contratoService;
 
     @GetMapping("/fornecedores/{fornecedorId}/contratos")
-    public List<Contrato> listarContratos(@PathVariable Long fornecedorId) {
-        return contratoService.listarContratos(fornecedorId);
+    public ResponseEntity<List<Contrato>> listarContratosComFiltros(
+            @PathVariable Long fornecedorId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataTermino,
+            @RequestParam(required = false) Boolean ativo,
+            @RequestParam(required = false) String descricao) {
+
+        List<Contrato> contratos = contratoService.buscarContratosComFiltros(fornecedorId, dataInicial, dataTermino, ativo, descricao);
+        return ResponseEntity.ok(contratos);
     }
 
     @GetMapping("/{id}")

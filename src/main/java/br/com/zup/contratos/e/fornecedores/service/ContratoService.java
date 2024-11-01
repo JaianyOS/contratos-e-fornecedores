@@ -7,6 +7,7 @@ import br.com.zup.contratos.e.fornecedores.repositories.FornecedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,10 @@ public class ContratoService {
     @Autowired
     private FornecedorRepository fornecedorRepository;
 
+    public List<Contrato> buscarContratosComFiltros(Long fornecedorId, LocalDate dataInicio, LocalDate dataTermino, Boolean ativo, String descricao) {
+        return contratoRepository.findByFilters(fornecedorId, dataInicio, dataTermino, ativo, descricao);
+    }
+
     public List<Contrato> listarContratos(Long fornecedorId) {
         return contratoRepository.findByFornecedorId(fornecedorId);
     }
@@ -29,7 +34,7 @@ public class ContratoService {
 
     public Contrato criarContrato(Long fornecedorId, Contrato contrato) {
         Fornecedor fornecedor = fornecedorRepository.findById(fornecedorId)
-                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Supplier not found."));
         contrato.setFornecedor(fornecedor);
         return contratoRepository.save(contrato);
     }

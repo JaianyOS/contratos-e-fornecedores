@@ -12,8 +12,7 @@ import java.util.Optional;
 
 @Service
 public class FornecedorService {
-    @Autowired
-    private FornecedorRepository fornecedorRepositorie;
+
     @Autowired
     private FornecedorRepository fornecedorRepository;
 
@@ -22,19 +21,29 @@ public class FornecedorService {
         return Optional.of(fornecedorRepository.findById(id));
     }
 
-    public List listarFornecedores() {
-        return List.of();
+    public List<Fornecedor> listarFornecedores() {
+        return fornecedorRepository.findAll();
     }
 
     public Fornecedor criarFornecedor(@Valid Fornecedor fornecedor) {
-        return fornecedor;
+        return fornecedorRepository.save(fornecedor);
     }
 
     public Optional<Object> atualizarFornecedor(Long id, @Valid Fornecedor fornecedor) {
-        return Optional.empty();
+        return fornecedorRepository.findById(id).map(existingFornecedor -> {
+            existingFornecedor.setNome(fornecedor.getNome());
+            existingFornecedor.setCNPJ(fornecedor.getCNPJ());
+            existingFornecedor.setTelefone(fornecedor.getTelefone());
+            existingFornecedor.setEndereco(fornecedor.getEndereco());
+            return fornecedorRepository.save(existingFornecedor);
+        });
     }
 
     public boolean removerFornecedor(Long id) {
-        return false;
+
+        return fornecedorRepository.findById(id).map(fornecedor -> {
+            fornecedorRepository.delete(fornecedor);
+            return true;
+        }).orElse(false);
     }
 }

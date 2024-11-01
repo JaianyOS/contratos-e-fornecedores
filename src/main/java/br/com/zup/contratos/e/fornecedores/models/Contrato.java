@@ -16,7 +16,7 @@ public class Contrato {
     private String numeroContrato;
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    @Min(value = 1, message = "O valor do contrato deve ser maior que zaro.")
+    @Min(value = 1, message = "The contract value must be greater than zaro.")
     private BigDecimal valorTotal;
     private String descricao;
     private boolean ativo;
